@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/elliotchance/phpserialize.svg?branch=master)](https://travis-ci.org/elliotchance/phpserialize)
+[![Build Status](https://travis-ci.org/writeas/phpserialize.svg?branch=master)](https://travis-ci.org/writeas/phpserialize)
 
 PHP [serialize()](http://php.net/manual/en/function.serialize.php) and
 [unserialize()](http://php.net/manual/en/function.unserialize.php) for Go.
@@ -6,7 +6,7 @@ PHP [serialize()](http://php.net/manual/en/function.serialize.php) and
 # Install / Update
 
 ```bash
-go get -u github.com/elliotchance/phpserialize
+go get -u github.com/writeas/phpserialize
 ```
 
 `phpserialize` requires Go 1.8+.
@@ -18,7 +18,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/elliotchance/phpserialize"
+	"github.com/writeas/phpserialize"
 )
 
 func main() {
@@ -43,7 +43,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/elliotchance/phpserialize"
+	"github.com/writeas/phpserialize"
 )
 
 type MyStruct struct {
