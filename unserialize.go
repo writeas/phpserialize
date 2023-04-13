@@ -26,24 +26,28 @@ func DecodePHPString(data []byte) string {
 	var buffer bytes.Buffer
 	for i := 0; i < len(data)-1; i++ {
 		if data[i] == '\\' {
-			switch data[i+1] {
-			case 'x':
-				b, _ := strconv.ParseInt(string(data[i+2:i+4]), 16, 32)
-				buffer.WriteByte(byte(b))
-				i += 3
+			if i+1 <= len(data)-1 {
+				switch data[i+1] {
+				case 'x':
+					b, _ := strconv.ParseInt(string(data[i+2:i+4]), 16, 32)
+					buffer.WriteByte(byte(b))
+					i += 3
 
-			case 'n':
-				buffer.WriteByte('\n')
-				i++
+				case 'n':
+					buffer.WriteByte('\n')
+					i++
 
-			case '\'':
-				buffer.WriteByte(data[i+1])
-				i++
+				case '\'':
+					buffer.WriteByte(data[i+1])
+					i++
 
-			default:
-				// It's a bit annoying but a backlash itself is not escaped. So
-				// if it was not followed by a known character we have to assume
-				// this.
+				default:
+					// It's a bit annoying but a backlash itself is not escaped. So
+					// if it was not followed by a known character we have to assume
+					// this.
+					buffer.WriteByte('\\')
+				}
+			} else {
 				buffer.WriteByte('\\')
 			}
 		} else {
@@ -130,7 +134,7 @@ func Unmarshal(data []byte, v interface{}) error {
 
 		value.SetInt(v)
 
-	case reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
 		v, err := UnmarshalUint(data)
 		if err != nil {
 			return err

@@ -113,6 +113,20 @@ func TestUnmarshalInt(t *testing.T) {
 				}
 			})
 
+			t.Run("uint", func(t *testing.T) {
+				var result uint
+				err := phpserialize.Unmarshal(test.input, &result)
+
+				if test.expectedError == nil {
+					expectErrorToNotHaveOccurred(t, err)
+					if result != uint(test.output) {
+						t.Errorf("Expected '%v', got '%v'", result, test.output)
+					}
+				} else {
+					expectErrorToEqual(t, err, test.expectedError)
+				}
+			})
+
 			t.Run("uint8", func(t *testing.T) {
 				var result uint8
 				err := phpserialize.Unmarshal(test.input, &result)
@@ -233,6 +247,7 @@ func TestUnmarshalString(t *testing.T) {
 			nil,
 		},
 		"not a string": {[]byte("N;"), "", errors.New("not a string")},
+		"Backslash":    {[]byte("s:1:\"\\\";"), "\\", nil},
 	}
 
 	for testName, test := range tests {
